@@ -16,9 +16,9 @@
 !function($){
   
   var defaults = {
-    strength: 25,
-    scale: 1.05,
-    animationSpeed: "100ms",
+    strength: 15,
+    scale: 1.1,
+    animationSpeed: '120ms',
     contain: true,
     wrapContent: false
   };  
@@ -60,10 +60,10 @@
       el.find("> .ibg-bg").css({
         width: w,
         height: h,
-        "-webkit-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
-        "-moz-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
-        "-o-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
-        "transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")"
+        "-webkit-transform": "scale(" + settings.scale + ")",
+        "-moz-transform": "scale(" + settings.scale + ")",
+        "-o-transform": "scale(" + settings.scale + ")",
+        "transform": "scale(" + settings.scale + ")"
       })
       
      
