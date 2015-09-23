@@ -59,7 +59,11 @@
       
       el.find("> .ibg-bg").css({
         width: w,
-        height: h
+        height: h,
+        "-webkit-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
+        "-moz-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
+        "-o-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")",
+        "transform": "matrix(" + settings.scale + ",0,0," + settings.scale + "," + newX + "," + newY + ")"
       })
       
      
@@ -70,10 +74,10 @@
         window.addEventListener('devicemotion', deviceMotionHandler, false);
 
           function deviceMotionHandler(eventData) {
-             var accX = Math.round(event.accelerationIncludingGravity.x*10) / 10,
-                 accY = Math.round(event.accelerationIncludingGravity.y*10) / 10,
-                 xA = -(accX / 10) * settings.strength,
-                 yA = -(accY / 10) * settings.strength,
+             var accX = Math.round(event.accelerationIncludingGravity.x*10) / 16,
+                 accY = Math.round(event.accelerationIncludingGravity.y*10) / 16,
+                 xA = -(accX / 16) * settings.strength,
+                 yA = -(accY / 16) * settings.strength,
                  newX = -(xA*2),
                  newY = -(yA*2);
                  
@@ -89,25 +93,10 @@
       } else {
         // For Desktop 
         // Animate only scaling when mouse enter
-        el.mouseenter(function(e) {
-          if (settings.scale != 1) el.addClass("ibg-entering")
-          el.find("> .ibg-bg").css({
-            "-webkit-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + ",0,0)",
-            "-moz-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + ",0,0)",
-            "-o-transform": "matrix(" + settings.scale + ",0,0," + settings.scale + ",0,0)",
-            "transform": "matrix(" + settings.scale + ",0,0," + settings.scale + ",0,0)",
-            "-webkit-transition": "-webkit-transform " + settings.animationSpeed + " linear",
-            "-moz-transition": "-moz-transform " + settings.animationSpeed + " linear",
-            "-o-transition": "-o-transform " + settings.animationSpeed + " linear",
-            "transition": "transform " + settings.animationSpeed + " linear"
-          }).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-
-            // This will signal the mousemove below to execute when the scaling animation stops
-            el.removeClass("ibg-entering")
-          });
-        }).mousemove(function(e){
+        
+        $('html').mousemove(function(e){
           // This condition prevents transition from causing the movement of the background to lag
-          if (!el.hasClass("ibg-entering") && !el.hasClass("exiting")) {
+          //if (!el.hasClass("ibg-entering") && !el.hasClass("exiting")) {
             var pageX = e.pageX || e.clientX,
                 pageY = e.pageY || e.clientY,
                 pageX = (pageX - el.offset().left) - (w / 2),
@@ -126,22 +115,7 @@
               "-o-transition": "none",
               "transition": "none"
             });
-          }
-        }).mouseleave(function(e) {
-          if (settings.scale != 1) el.addClass("ibg-exiting")
-          // Same condition applies as mouseenter. Rescale the background back to its original scale
-          el.addClass("ibg-exiting").find("> .ibg-bg").css({
-            "-webkit-transform": "matrix(1,0,0,1,0,0)",
-            "-moz-transform": "matrix(1,0,0,1,0,0)",
-            "-o-transform": "matrix(1,0,0,1,0,0)",
-            "transform": "matrix(1,0,0,1,0,0)",
-            "-webkit-transition": "-webkit-transform " + settings.animationSpeed + " linear",
-            "-moz-transition": "-moz-transform " + settings.animationSpeed + " linear",
-            "-o-transition": "-o-transform " + settings.animationSpeed + " linear",
-            "transition": "transform " + settings.animationSpeed + " linear"
-          }).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-            el.removeClass("ibg-exiting")
-          });
+          //}
         });
       }
     });
